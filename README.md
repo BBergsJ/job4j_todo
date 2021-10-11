@@ -1,4 +1,5 @@
 # job4j_TodoList
+[![Build Status](https://app.travis-ci.com/BBergsJ/job4j_todo.svg?branch=master)](https://app.travis-ci.com/BBergsJ/job4j_todo)
 
 #### Программа для управления своим списком дел
 - Добавление актуальных дел в базу данных

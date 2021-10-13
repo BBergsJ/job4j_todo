@@ -12,6 +12,13 @@ public class HbmStoreMain {
 //        store.create(new Item("new desc test 3", new Timestamp(333333), true));
 //        store.create(new Item("new desc test 4", new Timestamp(444444), false));
 
-        System.out.println(store.findById(50).toString());
+
+        System.out.println(store.findById(73).toString());
+        System.out.println(store.findById(73).isDone());
+
+        store.update(73);
+
+        System.out.println(store.findById(73).toString());
+        System.out.println(store.findById(73).isDone());
     }
 }

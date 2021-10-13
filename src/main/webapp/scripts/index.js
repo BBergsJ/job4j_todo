@@ -71,7 +71,7 @@
                 id : id
             },
             dataType: 'json',
-        }).done(function (data) {
+        }).done(function () {
             getTable();
             return true;
         }).fail(function (err) {

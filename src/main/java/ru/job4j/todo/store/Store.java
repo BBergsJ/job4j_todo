@@ -7,7 +7,7 @@ import java.util.List;
 public interface Store {
 
     Item create(Item item);
-    void update(Item item);
+    void update(int id);
     void delete(Integer id);
     List<Item> findAll();
     List<Item> findByFlagFalse();

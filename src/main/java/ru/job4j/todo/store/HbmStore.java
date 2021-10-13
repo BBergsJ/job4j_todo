@@ -1,6 +1,7 @@
 package ru.job4j.todo.store;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
@@ -8,7 +9,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.todo.model.Item;
-
 import java.util.List;
 
 public class HbmStore implements Store, AutoCloseable {
@@ -38,10 +38,12 @@ public class HbmStore implements Store, AutoCloseable {
     }
 
     @Override
-    public void update(Item item) {
+    public void update(int id) {
         Session session = SF.openSession();
         session.beginTransaction();
-        session.update(item);
+        session.createQuery("update Item i set i.done = case i.done when true then false else true end where i.id = :iId")
+        .setParameter("iId", id)
+        .executeUpdate();
         session.getTransaction().commit();
         session.close();
     }

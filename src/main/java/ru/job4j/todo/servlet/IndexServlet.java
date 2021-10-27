@@ -5,12 +5,15 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.todo.model.Item;
+import ru.job4j.todo.model.Users;
 import ru.job4j.todo.store.HbmStore;
+import ru.job4j.todo.store.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -44,10 +47,13 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/plain");
         req.setCharacterEncoding("UTF-8");
-        Item item = new Item(req.getParameter("description"),
-                new Timestamp(System.currentTimeMillis()),
-                false);
-        HbmStore.instOf().create(item);
+
+        Store store = HbmStore.instOf();
+        HttpSession sc = req.getSession();
+
+        String reqDesc = req.getParameter("description");
+        Users user = store.findUserByEmail((String) sc.getAttribute("email"));
+        Item item = store.createItem(Item.of(reqDesc, false, user));
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(item);
         output.write(json.getBytes(StandardCharsets.UTF_8));

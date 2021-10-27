@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -37,58 +36,54 @@
         }
     </style>
 </head>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-
-<body>
-
 <script>
-    <jsp:include page='scripts/index.js'/>
+    function validate() {
+        const name = $('#name');
+        const email = $('#email');
+        const password = $('#password');
+        if (name.val() === '') {
+            alert("Not filled: " + name.attr('id'));
+            return false;
+        }
+        if (email.val() === '') {
+            alert("Not filled: " + email.attr("id"));
+            return false;
+        }
+        if (password.val() === '') {
+            alert("Not filled: " + password.attr("id"));
+            return false;
+        }
+        return true;
+    }
 </script>
-
-<div class="header">
-    <h1 class="bg-secondary text-white">
-            <p>
-                TODO Список дел <i class="bi bi-clipboard-check"></i>
-            </p>
-    </h1>
-</div>
-<div class="newTask">
-    <h4>
-        Добавить новое задание:
-        <div class="row" style="float: right">
-            <a class="nav-link" id="userName" href="<%=request.getContextPath()%>/login.jsp"><c:out value="${user.name}"/></a>
-            <c:if test="${user != null}">
-                <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> | Выйти</a>
-            </c:if>
+</head>
+<body>
+<div class="container pt-3">
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Регистрация нового пользователя:
+            </div>
+            <div class="card-body">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
+                    <div class="form-group">
+                        <label>Имя пользователя :</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                        <label>Почта :</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                        <label>Пароль : </label>
+                        <input type="text" class="form-control" name="password" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
+                    <c:if test="${not empty requestScope.error}">
+                        <div style="color:#ff0000; font-weight: bold; margin: 30px 0;">
+                            <c:out value="${requestScope.error}"/>
+                        </div>
+                    </c:if>
+                </form>
+            </div>
         </div>
-    </h4>
-    <form class="was-validated">
-        <div class="form-group">
-            <input type="text" maxlength="40" class="form-control" id="newTask" placeholder="Новая задача" required>
-        </div>
-        <div>
-            <button id="btn" type="button" class="btn btn-secondary" onclick="addNewTask();">Добавить</button>
-        </div>
-    </form><br><br>
-
-    <div class="form-check float-right">
-        <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" id="showAll" onclick="getTable();"> Показать все
-        </label>
     </div>
-
-    <table class="table table-striped" id="taskTable">
-        <thead>
-        <tr>
-            <th>Описание</th>
-            <th>Добавлен</th>
-            <th>Пользователь</th>
-            <th>Статус</th>
-        </tr>
-        </thead>
-        <tbody id="table">
-        </tbody>
-    </table>
 </div>
 </body>
 </html>

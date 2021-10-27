@@ -10,6 +10,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.todo.model.Item;
+import ru.job4j.todo.model.Users;
+
 import java.util.List;
 import java.util.function.Function;
 
@@ -30,9 +32,15 @@ public class HbmStore implements Store, AutoCloseable {
     }
 
     @Override
-    public Item create(Item item) {
+    public Item createItem(Item item) {
         this.tx(session -> session.save(item));
         return item;
+    }
+
+    @Override
+    public Users createUser(Users user) {
+        this.tx(session -> session.save(user));
+        return user;
     }
 
     @Override
@@ -73,6 +81,15 @@ public class HbmStore implements Store, AutoCloseable {
     @Override
     public void close() throws Exception {
         StandardServiceRegistryBuilder.destroy(REGISTRY);
+    }
+
+    @Override
+    public Users findUserByEmail(String email) {
+//        Users result = (Users) this.tx(session -> session.createQuery("from ru.job4j.todo.model.Users where email = :email")
+//                .setParameter("email", email).uniqueResult());
+//        return result == null ? Users.of("name", "email", "password") : result;
+        return (Users) this.tx(session -> session.createQuery("from ru.job4j.todo.model.Users where email = :email")
+                .setParameter("email", email).uniqueResult());
     }
 
     private <T> T tx(final Function<Session, T> command) {

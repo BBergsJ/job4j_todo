@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class UpdateItem extends HttpServlet {
+public class UpdateItemServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override

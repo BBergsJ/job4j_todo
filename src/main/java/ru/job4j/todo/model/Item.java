@@ -13,13 +13,17 @@ public class Item {
     private Timestamp created;
     private boolean done;
 
-    public Item() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
-    public Item(String description, Timestamp created, boolean done) {
-        this.description = description;
-        this.created = created;
-        this.done = done;
+    public static Item of(String description, boolean done, Users user) {
+        Item item = new Item();
+        item.description = description;
+        item.created = new Timestamp(System.currentTimeMillis());
+        item.done = false;
+        item.user = user;
+        return item;
     }
 
     public int getId() {
@@ -52,6 +56,14 @@ public class Item {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     @Override

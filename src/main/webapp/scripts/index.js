@@ -32,6 +32,7 @@
                 table.append('<tr>'
                     + '<td>' + item.description + '</td>'
                     + '<td>' + item.created + '</td>'
+                    + '<td>' +item.user.name + '</td>'
                     + '<td>'
                     + '<input type="checkbox"'
                     + (item.done ? ' checked="checked" ' : "")
@@ -51,7 +52,7 @@
                 type: 'POST',
                 url: 'http://localhost:8080/todolist/index.do',
                 data: {
-                    description : $("#newTask").val()
+                    description : $("#newTask").val(),
                 },
                 dataType: 'json',
             }).done(function (data) {

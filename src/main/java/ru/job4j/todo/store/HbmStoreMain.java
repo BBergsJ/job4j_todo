@@ -9,16 +9,6 @@ import java.util.Optional;
 
 public class HbmStoreMain {
     public static void main(String[] args) {
-//        Store store = HbmStore.instOf();
-//
-//        System.out.println(store.findById(73).toString());
-//        System.out.println(store.findById(73).isDone());
-//
-//        store.update(73);
-//
-//        System.out.println(store.findById(73).toString());
-//        System.out.println(store.findById(73).isDone());
-
         Store store = HbmStore.instOf();
         Item item = Item.of("testDescription", false, store.findUserByEmail("goldlike888@gmail.com"));
         store.createItem(item);

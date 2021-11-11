@@ -99,7 +99,6 @@ public class HbmStore implements Store, AutoCloseable {
 
     @Override
     public List<Category> findAllCategories() {
-//        return this.tx(session -> session.createQuery("from Category ").getResultList());
         return this.tx(session -> session.createQuery("select c from Category c", Category.class).list());
     }
 

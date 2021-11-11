@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.model.Users;
 
@@ -32,9 +33,12 @@ public class HbmStore implements Store, AutoCloseable {
     }
 
     @Override
-    public Item createItem(Item item) {
-        this.tx(session -> session.save(item));
-        return item;
+    public Item createItem(Item item, List<String> categoriesId) {
+        return this.tx(session -> {
+            categoriesId.forEach(id -> item.addCategory(session.find(Category.class, Integer.parseInt(id))));
+            session.save(item);
+            return item;
+        });
     }
 
     @Override
@@ -63,19 +67,23 @@ public class HbmStore implements Store, AutoCloseable {
 
     @Override
     public List<Item> findAll() {
-        return this.tx(session -> session.createQuery("from ru.job4j.todo.model.Item").list());
+        return this.tx(session -> session.createQuery(
+                "select distinct c from Item c join fetch c.categories").list());
     }
 
     @Override
     public List<Item> findByFlagFalse() {
-        return this.tx(session -> session.createQuery("from ru.job4j.todo.model.Item where done = :false")
+        return this.tx(session -> session.createQuery(
+                "select distinct c from Item c join fetch c.categories where c.done = :false")
                     .setParameter("false", false).list()
         );
     }
 
     @Override
     public Item findById(int id) {
-        return this.tx(session -> session.get(Item.class, id));
+        return (Item) this.tx(session -> session.createQuery(
+                "select distinct i from Item i join fetch i.categories where i.id = :id")
+                .setParameter("id", id).uniqueResult());
     }
 
     @Override
@@ -87,6 +95,17 @@ public class HbmStore implements Store, AutoCloseable {
     public Users findUserByEmail(String email) {
         return (Users) this.tx(session -> session.createQuery("from ru.job4j.todo.model.Users where email = :email")
                 .setParameter("email", email).uniqueResult());
+    }
+
+    @Override
+    public List<Category> findAllCategories() {
+//        return this.tx(session -> session.createQuery("from Category ").getResultList());
+        return this.tx(session -> session.createQuery("select c from Category c", Category.class).list());
+    }
+
+    @Override
+    public Category findCatById(int id) {
+        return this.tx(session -> session.get(Category.class, id));
     }
 
     private <T> T tx(final Function<Session, T> command) {

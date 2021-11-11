@@ -31,64 +31,82 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>TODO List</title>
 
-    <style>
-        body {
-            margin: 2%;
-        }
-    </style>
 </head>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 
-<body>
+<body class="bg-light">
 
 <script>
     <jsp:include page='scripts/index.js'/>
 </script>
 
-<div class="header">
-    <h1 class="bg-secondary text-white">
-            <p>
-                TODO Список дел <i class="bi bi-clipboard-check"></i>
-            </p>
-    </h1>
-</div>
-<div class="newTask">
-    <h4>
-        Добавить новое задание:
-        <div class="row" style="float: right">
-            <a class="nav-link" id="userName" href="<%=request.getContextPath()%>/login.jsp"><c:out value="${user.name}"/></a>
-            <c:if test="${user != null}">
-                <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> | Выйти</a>
-            </c:if>
-        </div>
-    </h4>
-    <form class="was-validated">
-        <div class="form-group">
-            <input type="text" maxlength="40" class="form-control" id="newTask" placeholder="Новая задача" required>
-        </div>
-        <div>
-            <button id="btn" type="button" class="btn btn-secondary" onclick="addNewTask();">Добавить</button>
-        </div>
-    </form><br><br>
-
-    <div class="form-check float-right">
-        <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" id="showAll" onclick="getTable();"> Показать все
-        </label>
+<div class="container">
+    <div class="row float-right" style="font-size: x-large ; margin-right: 10px">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" id="userName" style="color: white" href="<%=request.getContextPath()%>/login.jsp">
+                    <i class="bi bi-person-circle"></i>
+                    <c:out value="${user.name}"/>
+                </a>
+            </li>
+            <li class="nav-item">
+                <c:if test="${user != null}">
+                    <a class="nav-link" style="color: white" href="<%=request.getContextPath()%>/logout.do">
+                        <i class="bi bi-door-open-fill"></i>
+                        Выйти
+                    </a>
+                </c:if>
+            </li>
+        </ul>
     </div>
 
-    <table class="table table-striped" id="taskTable">
-        <thead>
-        <tr>
-            <th>Описание</th>
-            <th>Добавлен</th>
-            <th>Пользователь</th>
-            <th>Статус</th>
-        </tr>
-        </thead>
-        <tbody id="table">
-        </tbody>
-    </table>
+    <div class="header">
+        <h1 class="bg-secondary text-white">
+            <p style="margin-left: 10px">
+                TODO Список дел <i class="bi bi-clipboard-check"></i>
+            </p>
+        </h1>
+    </div>
+
+    <div class="newTask">
+        <div class="row">
+            <div class="col-md-9 order-md-1 mb-4">
+                <form class="was-validated">
+                    <label class="col-form-label" for="newTask" style="font-size: large">Добавить новое задание:</label>
+                    <input type="text" class="form-control" id="newTask" placeholder="Новая задача" required><br><br>
+                    <button id="btn" type="button" class="btn btn-secondary" onclick="addNewTask();">Добавить</button>
+                </form>
+            </div>
+
+            <div class="col-md-3 order-md-2 mb-4">
+                <form class="was-validated" method="post">
+                    <label class="col-form-label" for="cIds" style="font-size: large">Категория:</label>
+                    <div>
+                        <select class="form-control" size="6rem" name="cIds" id="cIds" required multiple></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="form-check float-right">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="showAll" onclick="getTable();"> Показать все
+            </label>
+        </div>
+
+        <table class="table table-striped" id="taskTable">
+            <thead>
+            <tr>
+                <th>Описание</th>
+                <th>Добавлен</th>
+                <th>Пользователь</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody id="table">
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

@@ -27,6 +27,7 @@
             dataType: 'json'
         }).done(function (data) {
             $("#table").empty();
+            $("#cIds").empty();
             let table = $('table')
             data.forEach(function (item, i) {
                 table.append('<tr>'
@@ -41,6 +42,7 @@
                     + '</td>'
                     + '</tr>');
             })
+            getCat()
         }).fail(function (err) {
             alert(err);
         });
@@ -53,6 +55,7 @@
                 url: 'http://localhost:8080/todolist/index.do',
                 data: {
                     description : $("#newTask").val(),
+                    categories : JSON.stringify($('#cIds option:selected').toArray().map(el => el.value)),
                 },
                 dataType: 'json',
             }).done(function (data) {
@@ -68,8 +71,8 @@
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/todolist/update',
-            data:  {
-                id : id
+            data: {
+                id: id
             },
             dataType: 'json',
         }).done(function () {
@@ -78,5 +81,21 @@
         }).fail(function (err) {
             alert(err);
         });
+    }
 
-}
+    function getCat() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/todolist/categories',
+            dataType: 'json',
+        }).done(function (data) {
+            let categories = data;
+            let selectItems;
+            for (let i = 0; i < categories.length; i++) {
+                selectItems += "<option value='" + categories[i].id + "'>" + categories[i].name + "</option>";
+            }
+            $("#cIds").append(selectItems);
+        }).fail(function (err) {
+            alert(err);
+        });
+    }

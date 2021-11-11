@@ -15,3 +15,16 @@ create table if not exists users (
 );
 
 alter table item add column user_id int references users(id) on delete cascade;
+
+create table if not exists category (
+    id serial primary key,
+    name varchar
+);
+
+insert into category(name) values
+                                  ('Важное'),
+                                  ('Срочное'),
+                                  ('Дом'),
+                                  ('Работа'),
+                                  ('Хобби'),
+                                  ('Досуг');

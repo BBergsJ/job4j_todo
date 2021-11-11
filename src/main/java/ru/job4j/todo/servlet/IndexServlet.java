@@ -1,7 +1,9 @@
 package ru.job4j.todo.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.todo.model.Item;
@@ -17,8 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class IndexServlet extends HttpServlet {
@@ -53,11 +57,17 @@ public class IndexServlet extends HttpServlet {
 
         String reqDesc = req.getParameter("description");
         Users user = store.findUserByEmail((String) sc.getAttribute("email"));
-        Item item = store.createItem(Item.of(reqDesc, false, user));
+
+        ObjectMapper mapper = new ObjectMapper();
+        Gson gson = new Gson();
+        String[] array = mapper.readValue(req.getParameter("categories"), String[].class);
+
+        Item item = store.createItem(Item.of(reqDesc, false, user), Arrays.asList(array));
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(item);
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();
+
     }
 }

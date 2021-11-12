@@ -36,9 +36,11 @@
 
 <body class="bg-light">
 
-<script>
-    <jsp:include page='scripts/index.js'/>
-</script>
+<%--<script>--%>
+<%--    <jsp:include page='scripts/index.js'/>--%>
+<%--</script>--%>
+
+<script src="scripts/index.js" charset="utf-8"></script>
 
 <div class="container">
     <div class="row float-right" style="font-size: x-large ; margin-right: 10px">
@@ -98,6 +100,7 @@
             <thead>
             <tr>
                 <th>Описание</th>
+                <th>Категория</th>
                 <th>Добавлен</th>
                 <th>Пользователь</th>
                 <th>Статус</th>

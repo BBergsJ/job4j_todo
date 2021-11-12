@@ -1,3 +1,4 @@
+
     $(document).ready(function () {
         getTable()
     })
@@ -30,8 +31,13 @@
             $("#cIds").empty();
             let table = $('table')
             data.forEach(function (item, i) {
+                let categories = '';
+                $.each(item.categories, function (index, value) {
+                    categories += (value.name) + ', ';
+                });
                 table.append('<tr>'
                     + '<td>' + item.description + '</td>'
+                    + '<td style="word-break: break-all">' + categories + '</td>'
                     + '<td>' + item.created + '</td>'
                     + '<td>' +item.user.name + '</td>'
                     + '<td>'

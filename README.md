@@ -2,9 +2,12 @@
 [![Build Status](https://app.travis-ci.com/BBergsJ/job4j_todo.svg?branch=master)](https://app.travis-ci.com/BBergsJ/job4j_todo)
 
 #### Программа для управления своим списком дел
-- Добавление актуальных дел в базу данных
+- Регистрация пользователя
+- Форма входа в программу
+- Добавление актуальных дел в базу данных и отображение автора
 - Возможность отметки как выполненное
 - Вывод актуальных дел и возможность отображения всех дел
+- Добавление одной или нескольких категорий для каждого задания
 
 #### Используемые технологии  
 - Hibernate (PostgreSQL)
@@ -15,9 +18,11 @@
 - Travis CI
 
 #### Интерфейс
-- Главная страница, проверка поля ввода:
-![ScreenShot](images/todo01.jpg)
+- Авторизация:
+![ScreenShot](images/1.jpg)
+- Регистрация:
+![ScreenShot](images/11.jpg)
 - Список актуальных дел:
-![ScreenShot](images/todo04.jpg)
-- Список всех дел:
-![ScreenShot](images/todo05.jpg)
+![ScreenShot](images/2.jpg)
+-Список всех дел:
+![ScreenShot](images/3.jpg)

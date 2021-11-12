@@ -36,10 +36,6 @@
 
 <body class="bg-light">
 
-<%--<script>--%>
-<%--    <jsp:include page='scripts/index.js'/>--%>
-<%--</script>--%>
-
 <script src="scripts/index.js" charset="utf-8"></script>
 
 <div class="container">
